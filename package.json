@@ -1,0 +1,20 @@
+{
+  "name": "webshots",
+  "version": "0.0.0",
+  "description": "Local Mac screen shot to S3",
+  "main": "capture.js",
+  "dependencies": {
+    "aws-sdk": "~2.0.0-rc9",
+    "copy-paste": "~0.1.0",
+    "moment": "~2.5.1",
+    "node-env-file": "~0.1.0",
+    "rsvp": "~3.0.6",
+    "shelljs": "~0.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}
