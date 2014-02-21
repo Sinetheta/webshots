@@ -2,8 +2,8 @@ var env = require('node-env-file');
 env(__dirname + '/.env');
 
 var fs = require('fs');
-var moment = require('moment');
 var RSVP = require('rsvp');
+var shortId = require('shortid');
 
 require('shelljs/global');
 
@@ -21,9 +21,8 @@ var promptCapture = function() {
 
 var AWS = require('aws-sdk');
 var uploadImage = function(path) {
-    var timestamp = '2014-01-20 at 2.44.03 AM';
     var bucket = process.env.AWS_BUCKET_NAME;
-    var filename = 'ScreenShot-' + moment().toISOString() + '.png';
+    var filename = shortId.generate().slice(0, 5);
     var promise = new RSVP.Promise(function(resolve, reject){
         fs.readFile(path, function (err, data) {
             if (err) { throw err; }
@@ -31,10 +30,10 @@ var uploadImage = function(path) {
             var s3 = new AWS.S3();
             s3.client.putObject({
                 Bucket: bucket,
-                Key: filename,
+                Key: filename + '.png',
                 Body: data
             }, function (err, data) {
-                var publicUrl = s3.endpoint.href + bucket + '/' + filename;
+                var publicUrl = 'http://i.sinetheta.ca/' + filename
                 echo('Image uploaded successfully to ' + publicUrl);
                 resolve(publicUrl);
             });
