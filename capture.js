@@ -5,6 +5,28 @@ var RSVP = require('rsvp');
 
 require('shelljs/global');
 config.silent = true;
+var measureImage = function(path, dimension) {
+    var screenshot = __dirname + '/capture.png';
+    var promise = new RSVP.Promise(function(resolve, reject){
+        exec('sips ' + path + ' -g ' + dimension, function(command, output) {
+            var dim = output.match(/\d+/);
+            dim = parseInt(dim, 10);
+            resolve(dim);
+        });
+    });
+
+    return promise;
+};
+
+var resizeImage = function(path, restrictTo) {
+    var promise = new RSVP.Promise(function(resolve, reject){
+        exec('sips ' + path + ' -Z ' + restrictTo, function() {
+            resolve(path);
+        });
+    });
+
+    return promise;
+};
 
 var promptCapture = function() {
     var screenshot = __dirname + '/capture.png';
