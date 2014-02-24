@@ -6,6 +6,7 @@ var RSVP = require('rsvp');
 var shortId = require('shortid');
 
 require('shelljs/global');
+config.silent = true;
 
 var promptCapture = function() {
     var screenshot = __dirname + 'capture.png';
