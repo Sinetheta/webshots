@@ -12,7 +12,6 @@ var promptCapture = function() {
     var screenshot = __dirname + 'capture.png';
     var promise = new RSVP.Promise(function(resolve, reject){
         exec('screencapture -i ' + screenshot, function() {
-            echo('Screenshot captured ' + screenshot);
             resolve(screenshot);
         });
     });
@@ -35,7 +34,7 @@ var uploadImage = function(path) {
                 Body: data
             }, function (err, data) {
                 var publicUrl = 'http://i.sinetheta.ca/' + filename
-                echo('Image uploaded successfully to ' + publicUrl);
+                echo(publicUrl);
                 resolve(publicUrl);
             });
         });
