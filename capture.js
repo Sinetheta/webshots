@@ -50,6 +50,8 @@ var copyToClipboard = function(publicUrl) {
     copy(publicUrl, callback, supressOutput);
 };
 
+var argv = require('minimist')(process.argv.slice(2));
+
 promptCapture()
 .then(uploadImage)
 .then(copyToClipboard);

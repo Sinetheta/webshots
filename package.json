@@ -9,7 +9,8 @@
     "node-env-file": "~0.1.0",
     "rsvp": "~3.0.6",
     "shelljs": "~0.2.6",
-    "shortid": "~2.0.0"
+    "shortid": "~2.0.0",
+    "minimist": "0.0.8"
   },
   "devDependencies": {},
   "scripts": {
