@@ -91,11 +91,9 @@ var uploadImage = function(path) {
     return promise;
 };
 
-require('copy-paste');
+require('copy-paste').silent();
 var copyToClipboard = function(publicUrl) {
-    var callback = null;
-    var supressOutput = true;
-    copy(publicUrl, callback, supressOutput);
+    copy(publicUrl);
 };
 
 var argv = require('minimist')(process.argv.slice(2));
