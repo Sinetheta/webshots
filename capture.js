@@ -9,7 +9,7 @@ require('shelljs/global');
 config.silent = true;
 
 var promptCapture = function() {
-    var screenshot = __dirname + 'capture.png';
+    var screenshot = __dirname + '/capture.png';
     var promise = new RSVP.Promise(function(resolve, reject){
         exec('screencapture -i ' + screenshot, function() {
             resolve(screenshot);
