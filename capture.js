@@ -45,9 +45,9 @@ var uploadImage = function(path) {
 
 require('copy-paste');
 var copyToClipboard = function(publicUrl) {
-    copy(publicUrl);
-    echo('Url copied to Clipboard!');
-}
+    var callback = null;
+    var supressOutput = true;
+    copy(publicUrl, callback, supressOutput);
 
 promptCapture()
 .then(uploadImage)
