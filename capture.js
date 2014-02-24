@@ -1,9 +1,7 @@
 var env = require('node-env-file');
 env(__dirname + '/.env');
 
-var fs = require('fs');
 var RSVP = require('rsvp');
-var shortId = require('shortid');
 
 require('shelljs/global');
 config.silent = true;
@@ -16,10 +14,12 @@ var promptCapture = function() {
         });
     });
 
-    return promise
-}
+    return promise;
+};
 
 var AWS = require('aws-sdk');
+var fs = require('fs');
+var shortId = require('shortid');
 var uploadImage = function(path) {
     var bucket = process.env.AWS_BUCKET_NAME;
     var filename = shortId.generate().slice(0, 5);
@@ -41,13 +41,14 @@ var uploadImage = function(path) {
     });
 
     return promise;
-}
+};
 
 require('copy-paste');
 var copyToClipboard = function(publicUrl) {
     var callback = null;
     var supressOutput = true;
     copy(publicUrl, callback, supressOutput);
+};
 
 promptCapture()
 .then(uploadImage)
