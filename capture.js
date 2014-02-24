@@ -2,6 +2,13 @@ var env = require('node-env-file');
 env(__dirname + '/.env');
 
 var RSVP = require('rsvp');
+var dummypromise = function(input) {
+    var promise = new RSVP.Promise(function(resolve, reject){
+        resolve(input);
+    });
+
+    return promise;
+};
 
 require('shelljs/global');
 config.silent = true;
@@ -33,6 +40,25 @@ var promptCapture = function() {
     var promise = new RSVP.Promise(function(resolve, reject){
         exec('screencapture -i ' + screenshot, function() {
             resolve(screenshot);
+        });
+    });
+
+    return promise;
+};
+
+var reduceImage = function(path) {
+    var promise = new RSVP.Promise(function(resolve, reject){
+        RSVP.all([
+            measureImage(path, 'pixelHeight'),
+            measureImage(path, 'pixelWidth')
+        ]).then(function(args) {
+            var height = args[0];
+            var width = args[1];
+            var newLargestDim = Math.max(height, width)/2;
+
+            return resizeImage(path, newLargestDim);
+        }).then(function() {
+            resolve(path);
         });
     });
 
@@ -75,5 +101,6 @@ var copyToClipboard = function(publicUrl) {
 var argv = require('minimist')(process.argv.slice(2));
 
 promptCapture()
+.then(argv.retina? reduceImage: dummypromise)
 .then(uploadImage)
 .then(copyToClipboard);
