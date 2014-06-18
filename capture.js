@@ -83,7 +83,9 @@ var uploadImage = function(path) {
                 Key: filename + '.png',
                 Body: data
             }, function (err, data) {
-                var publicUrl = linkPrefix + filename
+                if (err) { throw err; }
+
+                var publicUrl = linkPrefix + filename + '.png'
                 echo(publicUrl);
                 resolve(publicUrl);
             });
