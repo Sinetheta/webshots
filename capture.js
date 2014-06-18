@@ -69,6 +69,7 @@ var AWS = require('aws-sdk');
 var fs = require('fs');
 var shortId = require('shortid');
 var uploadImage = function(path) {
+    AWS.config.update({region: process.env.AWS_REGION});
     var bucket = process.env.AWS_BUCKET_NAME;
     var linkPrefix = process.env.LINK_PREFIX;
     var filename = shortId.generate().slice(0, 5);
