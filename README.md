@@ -24,3 +24,23 @@ properly authenticate with AWS.
 This will initiate a the OSX screenshot utility, allowing you to select the area
 for the screenshot (as if you pressed CMD+Shift+4). After you select the area,
 the resulting PNG will be uploaded to the specified S3 bucket.
+
+## NGiNX
+
+S3, by default, sets the Content-Type to `application/octet-stream`, which most
+browsers treat as a download-only file. If you wish your screenshots to display
+inline instead of automatically downloading, override the Content-Type via an
+NGINX reverse-proxy.
+
+```
+server {
+  listen 80;
+  server_name screenshots.example.com
+
+  location / {
+    add_header Content-Type image/png;
+    proxy_hide_header "Content-Type";
+    proxy_pass http://my-bucket-url.s3-region.amazonaws.com/;
+  }
+}
+```
