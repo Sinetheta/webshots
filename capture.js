@@ -70,8 +70,9 @@ var fs = require('fs');
 var shortId = require('shortid');
 var uploadImage = function(path) {
     var bucket = process.env.AWS_BUCKET_NAME;
+    var linkPrefix = process.env.LINK_PREFIX;
     var filename = shortId.generate().slice(0, 5);
-    var promise = new RSVP.Promise(function(resolve, reject){
+    var promise = new RSVP.Promise(function(resolve, reject) {
         fs.readFile(path, function (err, data) {
             if (err) { throw err; }
 
@@ -81,7 +82,7 @@ var uploadImage = function(path) {
                 Key: filename + '.png',
                 Body: data
             }, function (err, data) {
-                var publicUrl = 'http://i.sinetheta.ca/' + filename
+                var publicUrl = linkPrefix + filename
                 echo(publicUrl);
                 resolve(publicUrl);
             });

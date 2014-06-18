@@ -8,6 +8,8 @@ Local Mac screen shot to S3
 1. Ensure you have an AWS account and have set up an S3 bucket.
 2. `npm install` - Install dependencies
 3. `cp example.env .env` - Copy the example settings file to your own
+4. Edit `.env` and plug in your settings. **Note**: ensure your URL ends with a
+   trailing slash!
 
 ## Usage
 
