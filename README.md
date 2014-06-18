@@ -11,6 +11,12 @@ Local Mac screen shot to S3
 4. Edit `.env` and plug in your settings. **Note**: ensure your URL ends with a
    trailing slash!
 
+## AWS Setup
+
+The AWS SDK uses global environment variables for configuration. You'll need
+`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` set in in the `.env` file to
+properly authenticate with AWS.
+
 ## Usage
 
 `node capture.js`
