@@ -44,3 +44,30 @@ server {
   }
 }
 ```
+
+## KeyRemap4Macbook
+
+You can trigger webshots easily via KeyRemap4Macbook. Here's an example
+`private.xml` excerpt for doing so:
+
+```xml
+<?xml version="1.0"?>
+<root>
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_SHELL_webshots</name>
+    <url type="shell">
+      <![CDATA[ /full/path/to/node /path/to/webshots/capture.js ]]>
+    </url>
+  </vkopenurldef>
+
+  <item>
+    <name>Take screenshot with Right-Command + S</name>
+    <identifier>private.right_command_s</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::S, ModifierFlag::COMMAND_R,
+      KeyCode::VK_OPEN_URL_SHELL_webshots,
+    </autogen>
+  </item>
+</root>
+```
