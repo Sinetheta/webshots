@@ -78,7 +78,7 @@ var uploadImage = function(path) {
             if (err) { throw err; }
 
             var s3 = new AWS.S3();
-            s3.client.putObject({
+            s3.putObject({
                 Bucket: bucket,
                 Key: filename + '.png',
                 Body: data
