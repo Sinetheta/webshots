@@ -4,7 +4,7 @@
   "description": "Local Mac screen shot to S3",
   "main": "capture.js",
   "dependencies": {
-    "aws-sdk": "~2.0.0-rc9",
+    "aws-sdk": "~2.0.12",
     "node-env-file": "~0.1.0",
     "rsvp": "~3.0.6",
     "shelljs": "~0.2.6",
