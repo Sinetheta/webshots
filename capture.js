@@ -38,7 +38,7 @@ var resizeImage = function(path, restrictTo) {
 var promptCapture = function() {
     var screenshot = __dirname + '/capture.png';
     var promise = new RSVP.Promise(function(resolve, reject){
-        exec('screencapture -i ' + screenshot, function() {
+        exec('scrot -s ' + screenshot, function() {
             resolve(screenshot);
         });
     });
