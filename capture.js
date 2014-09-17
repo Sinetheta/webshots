@@ -36,9 +36,16 @@ var resizeImage = function(path, restrictTo) {
 };
 
 var promptCapture = function() {
+    var isMac = /darwin/.test(process.platform);
     var screenshot = __dirname + '/capture.png';
     var promise = new RSVP.Promise(function(resolve, reject){
-        exec('scrot -s ' + screenshot, function() {
+        var screenshotCommand;
+        if (isMac) {
+            screenshotCommand = 'screencapture -i ' + screenshot;
+        } else {
+            screenshotCommand = 'scrot -s ' + screenshot;
+        }
+        exec(screenshotCommand, function() {
             resolve(screenshot);
         });
     });
