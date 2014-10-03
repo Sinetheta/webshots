@@ -35,8 +35,13 @@ var resizeImage = function(path, restrictTo) {
     return promise;
 };
 
-var promptCapture = function() {
+var shortId = require('shortid');
+var getShortName = function() {
+    return shortId.generate().slice(0, 5);
+};
+var promptCapture = function(name) {
     var isMac = /darwin/.test(process.platform);
+    var uploadName = name? encodeURIComponent(name): getShortName();
     var screenshot = __dirname + '/capture.png';
     var promise = new RSVP.Promise(function(resolve, reject){
         var screenshotCommand;
@@ -46,14 +51,16 @@ var promptCapture = function() {
             screenshotCommand = 'scrot -s ' + screenshot;
         }
         exec(screenshotCommand, function() {
-            resolve(screenshot);
+            resolve({path: screenshot, uploadName: uploadName});
         });
     });
 
     return promise;
 };
 
-var reduceImage = function(path) {
+var reduceImage = function(options) {
+    var fileName = options.fileName;
+    var path = options.path;
     var promise = new RSVP.Promise(function(resolve, reject){
         RSVP.all([
             measureImage(path, 'pixelHeight'),
@@ -65,7 +72,7 @@ var reduceImage = function(path) {
 
             return resizeImage(path, newLargestDim);
         }).then(function() {
-            resolve(path);
+            resolve({path: screenshot, uploadName: uploadName});
         });
     });
 
@@ -74,8 +81,9 @@ var reduceImage = function(path) {
 
 var AWS = require('aws-sdk');
 var fs = require('fs');
-var shortId = require('shortid');
-var uploadImage = function(path) {
+var uploadImage = function(options) {
+    var uploadName = options.uploadName;
+    var path = options.path;
     AWS.config.update({region: process.env.AWS_REGION});
     var bucket = process.env.AWS_BUCKET_NAME;
     var linkPrefix = process.env.LINK_PREFIX;
@@ -87,12 +95,11 @@ var uploadImage = function(path) {
             var s3 = new AWS.S3();
             s3.putObject({
                 Bucket: bucket,
-                Key: filename + '.png',
+                Key: uploadName + '.png',
                 Body: data
             }, function (err, data) {
                 if (err) { throw err; }
-
-                var publicUrl = linkPrefix + filename + '.png'
+                var publicUrl = linkPrefix + uploadName + '.png'
                 echo(publicUrl);
                 resolve(publicUrl);
             });
@@ -108,8 +115,10 @@ var copyToClipboard = function(publicUrl) {
 };
 
 var argv = require('minimist')(process.argv.slice(2));
+var name = argv.name || argv.n;
+var uploadName = typeof name === 'string'? name: undefined;
 
-promptCapture()
+promptCapture(uploadName)
 .then(argv.retina? reduceImage: dummypromise)
 .then(uploadImage)
 .then(copyToClipboard);
